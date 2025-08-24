@@ -3,7 +3,8 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { AlertTriangle, Wind, Waves, Cloud, Navigation, Clock, MapPin, Bell, Filter, CheckCircle, X, RefreshCw, Settings, Download, Archive, Eye, Users, TrendingUp } from 'lucide-react';
-const baseurl = process.env.backend_url;
+const baseurl = import.meta.env.VITE_BACKEND_URL;
+
 
 // Enhanced Alerts component with black background theme
 const Alerts = () => {
@@ -313,7 +314,7 @@ const Alerts = () => {
 
   const acknowledge = async (id) => {
     try {
-      const response = await fetch("${baseurl}/api/alerts/acknowledge", {
+      const response = await fetch('${baseurl}/api/alerts/acknowledge', {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ ids: [id] }),
@@ -343,7 +344,7 @@ const Alerts = () => {
     }
 
     try {
-      const response = await fetch("${baseurl}/api/alerts/acknowledge", {
+      const response = await fetch('${baseurl}/api/alerts/acknowledge', {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ ids: unacknowledgedIds }),
@@ -384,7 +385,7 @@ const Alerts = () => {
     setAutoRefresh(newPrefs.autoRefresh);
 
     try {
-      const response = await fetch("${baseurl}/api/alerts/preferences", {
+      const response = await fetch('${baseurl}/api/alerts/preferences', {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(newPrefs),

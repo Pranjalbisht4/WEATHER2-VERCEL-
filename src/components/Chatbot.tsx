@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
-const baseurl = process.env.backend_url;
+const baseurl = import.meta.env.VITE_BACKEND_URL;
+
 const CHATBOT_API = `${baseurl}/api/chatbot`;
 
 interface Message {

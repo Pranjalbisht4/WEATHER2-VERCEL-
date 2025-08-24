@@ -3,7 +3,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { TrendingUp, Ship, Wind, Waves, Thermometer, AlertTriangle, RefreshCw, CheckCircle, Clock, Target, Settings, Download } from "lucide-react";
-const baseurl = process.env.backend_url;
+const baseurl = import.meta.env.VITE_BACKEND_URL;
+
 
 // Enhanced Recommendations component with fully functional features
 const Recommendations = () => {

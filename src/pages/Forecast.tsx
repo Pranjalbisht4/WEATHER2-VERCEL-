@@ -3,7 +3,8 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { TrendingUp, Wind, Waves, Thermometer, Cloud, Calendar, Download, RefreshCw, AlertTriangle, Eye, Ship, Info } from 'lucide-react';
-const baseurl = process.env.backend_url;
+const baseurl = import.meta.env.VITE_BACKEND_URL;
+
 
 type DayForecast = {
   day: string;

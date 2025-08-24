@@ -20,7 +20,8 @@ import InteractiveMap from "@/components/InteractiveMap";
 import { mapMarkers } from "@/data/mapMarkers";
 import { MapData } from "@/types/map";
 
-const baseurl = process.env.backend_url;
+const baseurl = import.meta.env.VITE_BACKEND_URL;
+
 
 
 // Enhanced Map component with fully functional features

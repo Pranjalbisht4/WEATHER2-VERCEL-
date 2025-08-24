@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Wind, Waves, Thermometer, Eye, AlertTriangle, Ship, TrendingUp, Cloud, Navigation, Loader2 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
-const baseurl = process.env.backend_url;
+const baseurl = import.meta.env.VITE_backend_url;
 
 // Enhanced Dashboard with fully functional buttons and larger ocean video background
 const Dashboard = () => {
