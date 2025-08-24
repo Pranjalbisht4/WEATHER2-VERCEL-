@@ -9,10 +9,10 @@ const baseurl = import.meta.env.VITE_BACKEND_URL;
 // Enhanced Dashboard with fully functional buttons and larger ocean video background
 const Dashboard = () => {
   const navigate = useNavigate();
-  const [weatherData, setWeatherData] = useState(null);
-  const [marineData, setMarineData] = useState(null);
-  const [alerts, setAlerts] = useState([]);
-  const [vessels, setVessels] = useState([]);
+  const [weatherData, setWeatherData] = useState<any>(null);
+  const [marineData, setMarineData] = useState<any>(null);
+  const [alerts, setAlerts] = useState<any[]>([]);
+  const [vessels, setVessels] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
   // Fetch real weather data on component mount
@@ -21,24 +21,28 @@ const Dashboard = () => {
   }, []);
 
   const fetchAllData = async () => {
-    setLoading(true);
+    try {
+      setLoading(true);
 
-    // Fetch weather data for default location (London)
-    const weatherResponse = await fetch(`${baseurl}/api/weather/city?city=London`);
-    const weatherResult = await weatherResponse.json();
-    setWeatherData(weatherResult);
+      // Fetch weather data for default location (London)
+      const weatherResponse = await fetch(`${baseurl}/api/weather/city?city=London`);
+      const weatherResult = await weatherResponse.json();
+      setWeatherData(weatherResult);
 
-    // Fetch marine data for London coordinates
-    const marineResponse = await fetch(`${baseurl}/api/marine?lat=51.5074&lon=-0.1278`);
-    const marineResult = await marineResponse.json();
-    setMarineData(marineResult);
+      // Fetch marine data for London coordinates
+      const marineResponse = await fetch(`${baseurl}/api/marine?lat=51.5074&lon=-0.1278`);
+      const marineResult = await marineResponse.json();
+      setMarineData(marineResult);
 
-    // Fetch alerts
-    const alertsResponse = await fetch(`${baseurl}/api/alerts`);
-    const alertsResult = await alertsResponse.json();
-    setAlerts(alertsResult);
-
-    setLoading(false);
+      // Fetch alerts
+      const alertsResponse = await fetch(`${baseurl}/api/alerts`);
+      const alertsResult = await alertsResponse.json();
+      setAlerts(alertsResult);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   // Enhanced weather cards with real data
@@ -81,14 +85,14 @@ const Dashboard = () => {
     ];
   };
 
-  const handleViewDetails = (vesselId) => {
+  const handleViewDetails = (vesselId: string) => {
     const vessel = vessels.find(v => v.id === vesselId);
     if (vessel) {
       alert(`🚢 Vessel Details:\nName: ${vessel.name}\nType: ${vessel.type}\nStatus: ${vessel.status}\nSpeed: ${vessel.speed}\nWind: ${vessel.weather.wind} knots\nTemp: ${vessel.weather.temp}°C`);
     }
   };
 
-  const handleOptimizeRoute = (vesselId) => {
+  const handleOptimizeRoute = (vesselId: string) => {
     navigate('/recommendations');
   };
 
@@ -117,7 +121,7 @@ const Dashboard = () => {
 
   return (
     <div className="relative min-h-screen overflow-hidden">
-      {/* Enhanced Ocean Video Background - Much Larger */}
+      {/* Enhanced Ocean Video Background */}
       <div className="absolute inset-0 w-full h-full">
         <video
           autoPlay
@@ -127,10 +131,8 @@ const Dashboard = () => {
           className="w-full h-full object-cover"
           style={{ minHeight: '100vh', minWidth: '100vw' }}
         >
-          <source src="/src/assets/ocean-waves.mp4" type="video/mp4" />
+          {/* ✅ Only use public folder reference */}
           <source src="/ocean-waves.mp4" type="video/mp4" />
-          {/* Fallback animated background if video fails */}
-          <div className="w-full h-full wave-animation bg-gradient-to-b from-blue-500 to-blue-800"></div>
         </video>
 
         {/* Video Overlay for Better Text Readability */}
@@ -145,7 +147,7 @@ const Dashboard = () => {
 
       {/* Main Content with Glass Effect Overlay */}
       <div className="relative z-10 min-h-screen">
-        {/* Hero Section with Enhanced Text Overlay */}
+        {/* Hero Section */}
         <div className="relative pt-20 pb-16 text-center">
           <div className="glass-card mx-4 p-8 max-w-4xl mx-auto backdrop-blur-md bg-white/10 border border-white/20 rounded-3xl">
             <h1 className="text-5xl md:text-7xl font-bold text-white mb-4 drop-shadow-2xl">
@@ -173,7 +175,7 @@ const Dashboard = () => {
           </div>
         </div>
 
-        {/* Weather Cards Grid */}
+        {/* Weather Cards */}
         <div className="px-4 mb-12">
           <div className="max-w-6xl mx-auto">
             <h2 className="text-3xl font-bold text-white mb-8 text-center drop-shadow-lg">
@@ -201,7 +203,7 @@ const Dashboard = () => {
           </div>
         </div>
 
-        {/* Active Alerts Section */}
+        {/* Alerts */}
         {alerts.length > 0 && (
           <div className="px-4 mb-12">
             <div className="max-w-4xl mx-auto">
@@ -217,10 +219,11 @@ const Dashboard = () => {
                     <div key={alert.id} className="mb-4 last:mb-0">
                       <div className="flex justify-between items-start mb-2">
                         <h4 className="font-medium text-white">{alert.message}</h4>
-                        <span className={`px-2 py-1 rounded text-xs font-medium ${alert.severity === 'High' ? 'bg-red-600 text-white' :
+                        <span className={`px-2 py-1 rounded text-xs font-medium ${
+                          alert.severity === 'High' ? 'bg-red-600 text-white' :
                           alert.severity === 'Medium' ? 'bg-yellow-600 text-white' :
-                            'bg-blue-600 text-white'
-                          }`}>
+                          'bg-blue-600 text-white'
+                        }`}>
                           {alert.severity}
                         </span>
                       </div>
@@ -238,7 +241,7 @@ const Dashboard = () => {
           </div>
         )}
 
-        {/* Vessel Status Cards */}
+        {/* Vessel Status */}
         <div className="px-4 mb-12">
           <div className="max-w-6xl mx-auto">
             <h2 className="text-3xl font-bold text-white mb-8 text-center drop-shadow-lg">
@@ -256,10 +259,11 @@ const Dashboard = () => {
                           <p className="text-sm text-white/70">{vessel.type}</p>
                         </div>
                       </div>
-                      <span className={`px-3 py-1 rounded-full text-sm font-medium ${vessel.status === 'Optimal' ? 'bg-green-600/80 text-white' :
+                      <span className={`px-3 py-1 rounded-full text-sm font-medium ${
+                        vessel.status === 'Optimal' ? 'bg-green-600/80 text-white' :
                         vessel.status === 'Caution' ? 'bg-yellow-600/80 text-white' :
-                          'bg-red-600/80 text-white'
-                        }`}>
+                        'bg-red-600/80 text-white'
+                      }`}>
                         {vessel.status}
                       </span>
                     </div>
