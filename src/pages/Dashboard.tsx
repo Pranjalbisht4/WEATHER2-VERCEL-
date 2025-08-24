@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Wind, Waves, Thermometer, Eye, AlertTriangle, Ship, TrendingUp, Cloud, Navigation, Loader2 } from 'lucide-react';
+import { Wind, Waves, Thermometer, Eye, AlertTriangle, Ship, TrendingUp, Navigation, Loader2 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
-const baseurl = import.meta.env.VITE_backend_url;
+const baseurl = import.meta.env.VITE_BACKEND_URL;
 
 // Enhanced Dashboard with fully functional buttons and larger ocean video background
 const Dashboard = () => {
@@ -14,7 +14,6 @@ const Dashboard = () => {
   const [alerts, setAlerts] = useState([]);
   const [vessels, setVessels] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
 
   // Fetch real weather data on component mount
   useEffect(() => {
@@ -22,64 +21,30 @@ const Dashboard = () => {
   }, []);
 
   const fetchAllData = async () => {
-    try {
-      setLoading(true);
-      
-      // Fetch weather data for default location (London)
-      const weatherResponse = await fetch('${baseurl}/api/weather/city?city=London');
-      const weatherResult = await weatherResponse.json();
-      setWeatherData(weatherResult);
+    setLoading(true);
 
-      // Fetch marine data for London coordinates
-      const marineResponse = await fetch('${baseurl}/api/marine?lat=51.5074&lon=-0.1278');
-      const marineResult = await marineResponse.json();
-      setMarineData(marineResult);
+    // Fetch weather data for default location (London)
+    const weatherResponse = await fetch(`${baseurl}/api/weather/city?city=London`);
+    const weatherResult = await weatherResponse.json();
+    setWeatherData(weatherResult);
 
-      // Fetch alerts
-      const alertsResponse = await fetch('${baseurl}/api/alerts');
-      const alertsResult = await alertsResponse.json();
-      setAlerts(alertsResult);
+    // Fetch marine data for London coordinates
+    const marineResponse = await fetch(`${baseurl}/api/marine?lat=51.5074&lon=-0.1278`);
+    const marineResult = await marineResponse.json();
+    setMarineData(marineResult);
 
-      // Generate sample vessel data with real weather conditions
-      setVessels([
-        {
-          id: 1,
-          name: 'Container Ship Alpha',
-          type: 'Container Ship',
-          status: weatherResult?.wind?.speed > 10 ? 'Caution' : 'Optimal',
-          speed: weatherResult?.wind?.speed > 10 ? '12 knots' : '18 knots',
-          position: { lat: 51.5, lon: -0.1 },
-          weather: {
-            wind: weatherResult?.wind?.speed || 15,
-            temp: weatherResult?.main?.temp || 24
-          }
-        },
-        {
-          id: 2,
-          name: 'Cargo Ship Beta',
-          type: 'Cargo Ship',
-          status: weatherResult?.wind?.speed > 15 ? 'High Risk' : 'Optimal',
-          speed: '16 knots',
-          position: { lat: 51.3, lon: -0.3 },
-          weather: {
-            wind: (weatherResult?.wind?.speed || 15) + 3,
-            temp: weatherResult?.main?.temp || 22
-          }
-        }
-      ]);
+    // Fetch alerts
+    const alertsResponse = await fetch(`${baseurl}/api/alerts`);
+    const alertsResult = await alertsResponse.json();
+    setAlerts(alertsResult);
 
-    } catch (err) {
-      console.error('Error fetching data:', err);
-      setError('Failed to fetch weather data');
-    } finally {
-      setLoading(false);
-    }
+    setLoading(false);
   };
 
   // Enhanced weather cards with real data
   const getWeatherCards = () => {
     if (!weatherData) return [];
-    
+
     return [
       {
         icon: Wind,
@@ -154,10 +119,10 @@ const Dashboard = () => {
     <div className="relative min-h-screen overflow-hidden">
       {/* Enhanced Ocean Video Background - Much Larger */}
       <div className="absolute inset-0 w-full h-full">
-        <video 
-          autoPlay 
-          muted 
-          loop 
+        <video
+          autoPlay
+          muted
+          loop
           playsInline
           className="w-full h-full object-cover"
           style={{ minHeight: '100vh', minWidth: '100vw' }}
@@ -167,10 +132,10 @@ const Dashboard = () => {
           {/* Fallback animated background if video fails */}
           <div className="w-full h-full wave-animation bg-gradient-to-b from-blue-500 to-blue-800"></div>
         </video>
-        
+
         {/* Video Overlay for Better Text Readability */}
         <div className="absolute inset-0 bg-black/30 backdrop-blur-[1px]"></div>
-        
+
         {/* Animated Ocean Surface Effect */}
         <div className="absolute inset-0 opacity-60">
           <div className="absolute inset-0 bg-gradient-to-b from-transparent via-blue-500/20 to-blue-900/40"></div>
@@ -190,14 +155,14 @@ const Dashboard = () => {
               Advanced sea solutions for shipping and offshore energy
             </p>
             <div className="flex flex-wrap justify-center gap-4">
-              <Button 
+              <Button
                 onClick={handleViewMap}
                 className="bg-blue-600/80 hover:bg-blue-700 text-white backdrop-blur-sm border border-white/20 px-8 py-3 text-lg"
               >
                 <Navigation className="mr-2 h-5 w-5" />
                 Live Ocean Map
               </Button>
-              <Button 
+              <Button
                 onClick={handleRefreshData}
                 className="bg-teal-600/80 hover:bg-teal-700 text-white backdrop-blur-sm border border-white/20 px-8 py-3 text-lg"
               >
@@ -218,8 +183,8 @@ const Dashboard = () => {
               {getWeatherCards().map((item, index) => {
                 const Icon = item.icon;
                 return (
-                  <Card 
-                    key={index} 
+                  <Card
+                    key={index}
                     className="glass-card hover:scale-105 transition-all duration-300 cursor-pointer backdrop-blur-lg bg-white/15 border border-white/30 hover:bg-white/20"
                     onClick={item.onClick}
                   >
@@ -252,18 +217,17 @@ const Dashboard = () => {
                     <div key={alert.id} className="mb-4 last:mb-0">
                       <div className="flex justify-between items-start mb-2">
                         <h4 className="font-medium text-white">{alert.message}</h4>
-                        <span className={`px-2 py-1 rounded text-xs font-medium ${
-                          alert.severity === 'High' ? 'bg-red-600 text-white' : 
-                          alert.severity === 'Medium' ? 'bg-yellow-600 text-white' : 
-                          'bg-blue-600 text-white'
-                        }`}>
+                        <span className={`px-2 py-1 rounded text-xs font-medium ${alert.severity === 'High' ? 'bg-red-600 text-white' :
+                          alert.severity === 'Medium' ? 'bg-yellow-600 text-white' :
+                            'bg-blue-600 text-white'
+                          }`}>
                           {alert.severity}
                         </span>
                       </div>
                     </div>
                   ))}
-                  <Button 
-                    onClick={handleViewAlerts} 
+                  <Button
+                    onClick={handleViewAlerts}
                     className="w-full mt-4 bg-white/20 hover:bg-white/30 text-white border border-white/30"
                   >
                     View All Alerts
@@ -292,15 +256,14 @@ const Dashboard = () => {
                           <p className="text-sm text-white/70">{vessel.type}</p>
                         </div>
                       </div>
-                      <span className={`px-3 py-1 rounded-full text-sm font-medium ${
-                        vessel.status === 'Optimal' ? 'bg-green-600/80 text-white' : 
-                        vessel.status === 'Caution' ? 'bg-yellow-600/80 text-white' : 
-                        'bg-red-600/80 text-white'
-                      }`}>
+                      <span className={`px-3 py-1 rounded-full text-sm font-medium ${vessel.status === 'Optimal' ? 'bg-green-600/80 text-white' :
+                        vessel.status === 'Caution' ? 'bg-yellow-600/80 text-white' :
+                          'bg-red-600/80 text-white'
+                        }`}>
                         {vessel.status}
                       </span>
                     </div>
-                    
+
                     <div className="grid grid-cols-2 gap-4 mb-4 text-sm">
                       <div>
                         <p className="text-white/70">Speed</p>
@@ -311,19 +274,19 @@ const Dashboard = () => {
                         <p className="font-medium text-white">{vessel.weather.wind} knots</p>
                       </div>
                     </div>
-                    
+
                     <div className="flex gap-2">
-                      <Button 
+                      <Button
                         onClick={() => handleViewDetails(vessel.id)}
-                        variant="secondary" 
-                        size="sm" 
+                        variant="secondary"
+                        size="sm"
                         className="flex-1 bg-white/20 hover:bg-white/30 text-white border border-white/30"
                       >
                         View Details
                       </Button>
-                      <Button 
+                      <Button
                         onClick={() => handleOptimizeRoute(vessel.id)}
-                        size="sm" 
+                        size="sm"
                         className="flex-1 bg-blue-600/80 hover:bg-blue-700 text-white"
                       >
                         Optimize Route
@@ -367,20 +330,6 @@ const Dashboard = () => {
           </div>
         </div>
       </div>
-
-      {/* Error Display */}
-      {error && (
-        <div className="fixed bottom-4 right-4 z-50">
-          <Card className="bg-red-500/90 border-red-400">
-            <CardContent className="p-4">
-              <p className="text-white">{error}</p>
-              <Button onClick={() => setError(null)} variant="ghost" size="sm" className="mt-2 text-white hover:bg-white/20">
-                Dismiss
-              </Button>
-            </CardContent>
-          </Card>
-        </div>
-      )}
     </div>
   );
 };
