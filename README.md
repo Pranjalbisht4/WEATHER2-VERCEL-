@@ -1,59 +1,88 @@
-🌊 Weather Engine
-Project Info
-URL: http://localhost:5173 (when running locally)
+# 🌊 Weather Engine – Maritime Weather Intelligence
 
-This project provides an interactive ocean weather dashboard with:
+## 🚢 Project Info
+A full-stack weather application that provides **real-time weather updates, historical data, alerts, and expert recommendations** for maritime use.  
+It helps vessels optimize speed, routes, and safety by integrating predictive weather intelligence.
 
-Moving ocean water animation
+🔗 **Deployment URL:** [Weather App](https://weather-2-vercel.vercel.app/)  
+🎥 **Video Demo:** [Watch Here](https://drive.google.com/file/d/1KhNmKD-hMiTupPSeD0LwoCGU6_ZRJkgg/view?usp=sharing)
 
-Interactive world map with country boundaries
+👥 *Team Members:*  
+- Pranjal Bisht  
+- Ayush Kumar  
+- Sachin Bisht  
+- Shashank Bisht  
 
-Modern UI built with React, TailwindCSS, shadcn/ui
+---
 
-Footer with links:
+## 📡 IoT Integration
+- 🌐 IoT-enabled buoys and ship sensors collect **live sea data** (wind speed, tides, salinity, currents).  
+- 📶 Data is transmitted to the backend for **real-time analysis & alerts**.  
+- 🚢 Helps ships adjust routes dynamically using **edge devices** and onboard systems.  
+- 🔗 IoT + Weather API fusion improves **forecast accuracy** and **safety insights**.
 
-© 2025 Weathernews Inc.
+---
 
-Privacy Policy
+## 📌 Features
+- 🌍 Real-time weather information & maritime alerts  
+- ⏳ Predictive weather conditions up to **10 days**  
+- 🚢 Optimal vessel speed suggestions against wind, waves & currents  
+- 📊 Historical weather dataset integration  
+- ⚠️ Alerts & cyclone warnings from APIs (OpenWeather, NOAA, etc.)  
+- 🤖 Expert chatbot support for guidance  
+- 🌊 Moving ocean water animation  
+- 🗺️ Interactive world map with country boundaries  
+- 📱 Responsive modern UI  
 
-Cookie Policy
+---
 
-Terms of Use
+## 🛠️ Technologies Used
+- ⚡ **Vite** – fast frontend builds & dev server  
+- ⚛️ **React** – frontend library  
+- 🎨 **TailwindCSS** – modern styling  
+- 🧩 **shadcn/ui** – UI components  
+- 🌍 **Interactive Map (world boundaries)**  
+- 🐍 **Flask** – backend REST API  
+- 📡 **IoT Devices & Sensors** – real-time data collection  
+- 📂 **Datasets** – weather alerts, historical data, chatbot knowledge  
 
-🚀 How to Run Locally
-The only requirement is having Node.js & npm installed - Install Node.js
+---
 
-Follow these steps:
+## ⚙️ Project Setup
 
-# Step 1: Clone the repository using your Git URL
-git clone <YOUR_GIT_URL>
+# ===============================
+# 🔹 Backend Setup (Flask)
+# ===============================
 
-# Step 2: Navigate to the project directory
-cd <YOUR_PROJECT_NAME>
+## Step 1: Navigate to backend folder
+cd Weather-main/BACKEND
 
-# Step 3: Install the necessary dependencies
+## Step 2: Create and activate virtual environment
+python -m venv venv
+source venv/bin/activate   # Linux/Mac
+venv\Scripts\activate      # Windows
+
+## Step 3: Install required packages
+pip install -r requirements.txt
+
+## Step 4: Run the backend server
+python app.py
+
+
+# ===============================
+# 🔹 Frontend Setup (React + Vite)
+# ===============================
+
+## Step 1: Clone the repository
+git clone https://github.com/Pranjalbisht4/Weather.git
+
+## Step 2: Navigate to the project directory
+cd Weather-main
+
+## Step 3: Install dependencies
 npm install
 
-# Step 4: Start the development server with auto-reloading
+## Step 4: Start the development server
 npm run dev
-Now open http://localhost:5173 in your browser 🎉
 
-🛠️ Technologies Used
-⚡ Vite (for fast builds & dev server)
-
-⚛️ React (frontend library)
-
-🎨 Tailwind CSS (styling)
-
-🧩 shadcn-ui (UI components)
-
-🌍 Interactive Map (world map with country boundaries)
-
-📦 Deployment
-You can deploy this project to Vercel, Netlify, or any hosting provider that supports static React apps.
-
-For example, with Vercel:
-
-npm run build
-Then deploy the dist/ folder.
-
+## Open http://localhost:5173 in your browser 🎉
